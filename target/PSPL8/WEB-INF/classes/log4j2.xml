@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Configuration xmlns="http://logging.apache.org/log4j/2.0/config" status="WARN">
+    <Properties>
+        <Property name="pattern1">%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} -> %msg%n</Property>
+        <Property name="pattern_file">%d{yyyy-MM-dd HH:mm:ss} [%t] [%M] [%L] %-5level %logger{5} - %m%n</Property>
+        <Property name="LOG_FOLDER">logs</Property>
+    </Properties>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${pattern1}"/>
+        </Console>
+        <RollingFile name="TxtFile" fileName="${LOG_FOLDER}/log.txt" append="true"
+                     filePattern="${LOG_FOLDER}/${date:yyyy-MM-dd}/%d{yyyy-MM-dd_HH-mm}_%i.txt">
+            <PatternLayout pattern="${pattern_file}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="100 KB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="15"/>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+            <AppenderRef level="error" ref="TxtFile"/>
+        </Root>
+    </Loggers>
+</Configuration>
